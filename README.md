@@ -8,9 +8,13 @@ It is not tied to any vendor or course. It writes logs, exposes metrics, and car
 
 There is deliberately no answer key. The Control Center shows what you have set right now, never a history of what was broken or why. Finding the cause is the exercise.
 
+![The Control Center's service map, with one service slowed down](assets/screenshots/services-map.png)
+
 ## Contents
 
 - [Quick start](#quick-start)
+- [Screenshots](#screenshots)
+- [Connect your observability tool](#connect-your-observability-tool)
 - [What you get](#what-you-get)
 - [The shop](#the-shop)
 - [The Control Center](#the-control-center)
@@ -45,6 +49,28 @@ The script uses the Node.js you already have. If it is missing or too old, the s
 Short on memory? Start the lighter set: `./start.sh lite` or `.\run.bat lite`.
 
 Run it every day, start and stop it as often as you like. Nothing is installed system-wide.
+
+## Screenshots
+
+**First visit.** A four-step guide explains what to do.
+
+![The Start here guide](assets/screenshots/control-center-start.png)
+
+**Business.** Orders, revenue and lost value per minute. Here payment has been slowed to 900 ms and revenue is already feeling it.
+
+![Business tiles, outcomes and traffic](assets/screenshots/business.png)
+
+**Journeys.** Pick a journey to see its steps and the services it touches, lit up on the map.
+
+![The Buy a SIM journey](assets/screenshots/journey.png)
+
+**Where to look.** Log folders, metrics addresses and a command for recent business events, ready to copy.
+
+![Where to look](assets/screenshots/where-to-look.png)
+
+**The shop.** A real, clickable store for BreakTel.
+
+![The BreakTel storefront](assets/screenshots/storefront.png)
 
 ## What you get
 
@@ -118,6 +144,174 @@ Every journey starts with a standard W3C `traceparent` header, created in the br
 
 Services also report business events: a flow name, a step, and an outcome (`ok`, `business_exception` or `abandoned`), with a money value where relevant. This is what makes revenue and lost-order numbers possible, and it is the raw material for business-flow analysis in any tool.
 
+## Connect your observability tool
+
+BreakShop produces three kinds of data and never sends any of it anywhere. You connect your own tool.
+
+| Signal | What BreakShop gives you | Where |
+|---|---|---|
+| Logs | One JSON object per line. Fields: `ts`, `level`, `service`, `msg`, `trace_id`, plus request details such as `method`, `path`, `status`, `ms`. (If you switch the Logs panel to plain or mixed, lines look like `<ts> LEVEL service [trace_id] message key=value`.) | `~/.breakshop/logs/<service>-<n>.log` (on Windows, `%USERPROFILE%\.breakshop\logs`) |
+| Metrics | Prometheus text format. `http_requests_total{service,route,status}` and a latency histogram `http_request_duration_ms_bucket/_sum/_count{service,route,le}` (milliseconds). | `http://localhost:<port>/metrics` on every service, ports in [Ports](#ports) |
+| Traces | Every request carries a W3C `traceparent` header and every log line carries the same `trace_id`. BreakShop does **not** export spans itself: your tool's own Node.js instrumentation creates them and picks up the header. | Your agent or SDK |
+
+Every process is a separate `node` process that inherits the environment of the shell that started BreakShop. So an agent that instruments Node.js processes automatically works as soon as it is installed and BreakShop is restarted, and environment variables you set before `./start.sh` or `.\run.bat` reach every service.
+
+> **Read this first.** These guides show the shape of each tool's configuration and were written from vendor documentation. They have not been run against every product version, and vendors change file names and keys. Treat them as a starting point and check the vendor's current docs. Never commit licence keys or API tokens.
+
+Service ports for the examples below: bus 5600, gateway 5610, storefront 5620, auth 5630, account 5640, check-user-id 5650, kyc 5660, plans 5670, coverage 5680, number-inventory 5690, pricing 5700, orders 5710, payment 5720, billing 5730, provisioning 5740, porting 5750, fulfilment 5760, notifications 5770, payment-gateway 5780, kyc-provider 5790, courier 5800, porting-hub 5810. A service with extra copies uses the next ports in its block, so check the **Where to look** section for the live list.
+
+### Prometheus and Grafana
+
+Metrics, with no agent on the machine:
+
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: breakshop
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - localhost:5600
+          - localhost:5610
+          - localhost:5620
+          - localhost:5710
+          - localhost:5720
+          # add the other service ports from the list above
+```
+
+Useful first queries:
+
+```
+sum by (service) (rate(http_requests_total{status=~"5.."}[1m]))
+histogram_quantile(0.95, sum by (le, service) (rate(http_request_duration_ms_bucket[1m])))
+```
+
+Logs go to Loki with Promtail (or Grafana Alloy):
+
+```yaml
+# promtail.yml
+scrape_configs:
+  - job_name: breakshop
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: breakshop
+          __path__: /home/you/.breakshop/logs/*.log   # Windows: C:\Users\you\.breakshop\logs\*.log
+    pipeline_stages:
+      - json:
+          expressions: { level: level, service: service, trace_id: trace_id }
+      - labels:
+          level:
+          service:
+```
+
+Add Loki as a Grafana data source and use `trace_id` as a derived field to jump between logs.
+
+### OpenTelemetry Collector
+
+Use the collector to scrape metrics and tail logs, then send both to any OTLP backend:
+
+```yaml
+receivers:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: breakshop
+          scrape_interval: 5s
+          static_configs:
+            - targets: ["localhost:5710", "localhost:5720"]   # add the rest
+  filelog:
+    include: [ "${env:HOME}/.breakshop/logs/*.log" ]
+    operators:
+      - type: json_parser
+        on_error: send
+
+exporters:
+  otlphttp:
+    endpoint: https://YOUR-BACKEND
+    headers: { Authorization: "Bearer ${env:BACKEND_TOKEN}" }
+
+service:
+  pipelines:
+    metrics: { receivers: [prometheus], exporters: [otlphttp] }
+    logs:    { receivers: [filelog],    exporters: [otlphttp] }
+```
+
+For traces, start BreakShop with the OpenTelemetry Node.js auto-instrumentation loaded, for example `NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"` and `OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318`. Install the package somewhere Node can resolve it first. Because every process shares one environment, set `OTEL_SERVICE_NAME` per service only if you start the processes yourself; otherwise you will see the process name or script as the service name.
+
+### Dynatrace
+
+1. Install **OneAgent** on the machine that runs BreakShop (full-stack monitoring), then **stop and start BreakShop** so the new Node.js processes are instrumented.
+2. In your environment, the processes show up on the host. Services are detected from the HTTP traffic, and requests appear as distributed traces (PurePaths) across the services because the `traceparent` header is passed along.
+3. Logs: OneAgent can discover log files of monitored processes. If the files in `~/.breakshop/logs` are not picked up, add that folder as a log source in the log monitoring settings.
+4. Metrics from `/metrics`: scrape them with an OpenTelemetry Collector (see above) sending OTLP to your environment, or with the Prometheus extension through an ActiveGate.
+5. Business events: `GET /api/events/recent` on the Control Center returns the flow, step, outcome and amount of recent steps as JSON, which you can post to the business events ingest endpoint with a small script.
+
+### Datadog
+
+1. Install the **Datadog Agent** on the machine.
+2. Metrics: add one OpenMetrics instance per service in `conf.d/openmetrics.d/conf.yaml`:
+
+```yaml
+instances:
+  - openmetrics_endpoint: http://localhost:5720/metrics
+    namespace: breakshop
+    metrics: [".*"]
+  - openmetrics_endpoint: http://localhost:5710/metrics
+    namespace: breakshop
+    metrics: [".*"]
+```
+
+3. Logs: set `logs_enabled: true` in `datadog.yaml`, then create `conf.d/breakshop.d/conf.yaml`:
+
+```yaml
+logs:
+  - type: file
+    path: /home/you/.breakshop/logs/*.log
+    service: breakshop
+    source: nodejs
+```
+
+4. Traces: install `dd-trace` and start BreakShop with `NODE_OPTIONS="--require dd-trace/init"`. Datadog reads W3C `traceparent` by default. Every process shares the environment, so set `DD_SERVICE` only if you start the processes yourself; otherwise the services share a default name.
+
+### New Relic
+
+1. Install the **infrastructure agent** on the machine.
+2. Metrics: use the Prometheus OpenMetrics integration (`nri-prometheus`) with the service addresses as targets:
+
+```yaml
+integrations:
+  - name: nri-prometheus
+    config:
+      standalone: false
+      targets:
+        - description: BreakShop
+          urls:
+            - http://localhost:5720/metrics
+            - http://localhost:5710/metrics
+```
+
+3. Logs: add `logging.d/breakshop.yml` to the agent configuration:
+
+```yaml
+logs:
+  - name: breakshop
+    file: /home/you/.breakshop/logs/*.log
+    attributes:
+      logtype: breakshop
+```
+
+4. Traces: install the `newrelic` Node.js package and start BreakShop with `NODE_OPTIONS="--require newrelic"`, `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true`. As above, all services share one app name unless you start the processes yourself with `NEW_RELIC_APP_NAME` set per process.
+
+### Plain command line
+
+No tool at all works too:
+
+```
+curl -s http://localhost:5720/metrics | grep http_request_duration_ms_sum
+grep 7d43076a1d425bfb3d2f3aa024454672 ~/.breakshop/logs/*.log     # follow one trace id across services
+```
+
 ## Architecture
 
 ```
@@ -187,8 +381,7 @@ Docker Compose and Kubernetes files are in `experimental/`. They are **untested 
 npm test
 ```
 
-Runs about 120 tests with Node's built-in test runner: shared helpers, each service, the supervisor, the Control Center, the load generators, the Windows start script, and an end-to-end smoke check. CI runs them on Linux, Windows and macOS.
-
+Runs about 120 tests with Node's built-in test runner: shared helpers, each service, the supervisor, the Control Center, the load generators, the Windows start script, and an end-to-end smoke check.
 ## Troubleshooting
 
 - **Port already in use.** Another program holds 2605, 5550 or a service port. Stop it, or set `BS_CONTROL_CENTER_PORT`. The start script reports which port is busy.
