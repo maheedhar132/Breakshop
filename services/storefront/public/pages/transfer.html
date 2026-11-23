@@ -1,0 +1,17 @@
+<section class="narrow">
+  <h1>Switch your number</h1>
+  <p class="lead">Move your number to BreakTel, or take it somewhere else. Either way you keep it.</p>
+  <form class="form" data-endpoint="port-in" data-direction novalidate>
+    <div class="field" data-customer-field><label for="customerId">Customer ID</label><input id="customerId" name="customerId" autocomplete="off" required><p class="hint">You get this when you <a href="/account/new">create an account</a>.</p></div>
+    <fieldset class="field"><legend>Direction</legend>
+      <div class="seg" role="radiogroup">
+        <label class="seg-opt"><input type="radio" name="direction" value="in" checked><span>Move to BreakTel</span></label>
+        <label class="seg-opt"><input type="radio" name="direction" value="out"><span>Move away</span></label>
+      </div>
+    </fieldset>
+    <div class="field"><label for="number">Mobile number</label><input id="number" name="number" type="tel" inputmode="tel" autocomplete="off" required placeholder="07900 123456"></div>
+    <div class="field" data-only="in"><label for="fromOperator">Current operator</label><input id="fromOperator" name="fromOperator" autocomplete="off" placeholder="Optional"></div>
+    <button class="btn btn-primary btn-lg" type="submit">Start transfer</button>
+  </form>
+  <section class="result" id="result" role="status" tabindex="-1" hidden></section>
+</section>

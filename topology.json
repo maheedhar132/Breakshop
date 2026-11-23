@@ -1,0 +1,222 @@
+{
+  "profiles": {
+    "full": [
+      "control-center",
+      "bus",
+      "gateway",
+      "storefront",
+      "auth",
+      "account",
+      "check-user-id",
+      "kyc",
+      "plans",
+      "coverage",
+      "number-inventory",
+      "pricing",
+      "orders",
+      "payment",
+      "billing",
+      "provisioning",
+      "porting",
+      "fulfilment",
+      "notifications",
+      "payment-gateway",
+      "kyc-provider",
+      "courier",
+      "porting-hub",
+      "scheduler",
+      "loadgen-users",
+      "loadgen-resources"
+    ],
+    "lite": [
+      "control-center",
+      "bus",
+      "storefront",
+      "gateway",
+      "account",
+      "check-user-id",
+      "kyc",
+      "kyc-provider",
+      "pricing",
+      "orders",
+      "payment",
+      "payment-gateway",
+      "billing",
+      "notifications",
+      "loadgen-users",
+      "loadgen-resources"
+    ]
+  },
+  "journeys": {
+    "full": [
+      "create_account",
+      "buy_broadband",
+      "buy_sim",
+      "recharge",
+      "port_in",
+      "port_out"
+    ],
+    "lite": [
+      "create_account",
+      "recharge"
+    ]
+  },
+  "processes": {
+    "control-center": {
+      "kind": "controlcenter",
+      "entry": "control-center/server.js",
+      "port": 2605,
+      "copies": 1
+    },
+    "bus": {
+      "kind": "bus",
+      "entry": "bus/index.js",
+      "port": 5600,
+      "copies": 1
+    },
+    "gateway": {
+      "kind": "service",
+      "entry": "services/gateway/index.js",
+      "port": 5610,
+      "copies": 1
+    },
+    "storefront": {
+      "kind": "service",
+      "entry": "services/storefront/index.js",
+      "port": 5620,
+      "copies": 1
+    },
+    "auth": {
+      "kind": "service",
+      "entry": "services/auth/index.js",
+      "port": 5630,
+      "copies": 1
+    },
+    "account": {
+      "kind": "service",
+      "entry": "services/account/index.js",
+      "port": 5640,
+      "copies": 1
+    },
+    "check-user-id": {
+      "kind": "service",
+      "entry": "services/check-user-id/index.js",
+      "port": 5650,
+      "copies": 1
+    },
+    "kyc": {
+      "kind": "service",
+      "entry": "services/kyc/index.js",
+      "port": 5660,
+      "copies": 1
+    },
+    "plans": {
+      "kind": "service",
+      "entry": "services/plans/index.js",
+      "port": 5670,
+      "copies": 1
+    },
+    "coverage": {
+      "kind": "service",
+      "entry": "services/coverage/index.js",
+      "port": 5680,
+      "copies": 1
+    },
+    "number-inventory": {
+      "kind": "service",
+      "entry": "services/number-inventory/index.js",
+      "port": 5690,
+      "copies": 1
+    },
+    "pricing": {
+      "kind": "service",
+      "entry": "services/pricing/index.js",
+      "port": 5700,
+      "copies": 1
+    },
+    "orders": {
+      "kind": "service",
+      "entry": "services/orders/index.js",
+      "port": 5710,
+      "copies": 1
+    },
+    "payment": {
+      "kind": "service",
+      "entry": "services/payment/index.js",
+      "port": 5720,
+      "copies": 1
+    },
+    "billing": {
+      "kind": "service",
+      "entry": "services/billing/index.js",
+      "port": 5730,
+      "copies": 1
+    },
+    "provisioning": {
+      "kind": "service",
+      "entry": "services/provisioning/index.js",
+      "port": 5740,
+      "copies": 1
+    },
+    "porting": {
+      "kind": "service",
+      "entry": "services/porting/index.js",
+      "port": 5750,
+      "copies": 1
+    },
+    "fulfilment": {
+      "kind": "service",
+      "entry": "services/fulfilment/index.js",
+      "port": 5760,
+      "copies": 1
+    },
+    "notifications": {
+      "kind": "service",
+      "entry": "services/notifications/index.js",
+      "port": 5770,
+      "copies": 1
+    },
+    "payment-gateway": {
+      "kind": "partner",
+      "entry": "partners/payment-gateway/index.js",
+      "port": 5780,
+      "copies": 1
+    },
+    "kyc-provider": {
+      "kind": "partner",
+      "entry": "partners/kyc-provider/index.js",
+      "port": 5790,
+      "copies": 1
+    },
+    "courier": {
+      "kind": "partner",
+      "entry": "partners/courier/index.js",
+      "port": 5800,
+      "copies": 1
+    },
+    "porting-hub": {
+      "kind": "partner",
+      "entry": "partners/porting-hub/index.js",
+      "port": 5810,
+      "copies": 1
+    },
+    "scheduler": {
+      "kind": "scheduler",
+      "entry": "scheduler/index.js",
+      "port": 5820,
+      "copies": 1
+    },
+    "loadgen-users": {
+      "kind": "loadgen",
+      "entry": "loadgen/users.js",
+      "port": 5830,
+      "copies": 1
+    },
+    "loadgen-resources": {
+      "kind": "loadgen",
+      "entry": "loadgen/resources.js",
+      "port": 5840,
+      "copies": 1
+    }
+  }
+}

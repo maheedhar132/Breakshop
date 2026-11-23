@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="bs-token" content="__BS_TOKEN__">
+<title>BreakShop Control Center</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to controls</a>
+
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10" fill="none"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M12 14l4-4"/><path d="M3.3 19a10 10 0 1 1 17.4 0"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 8-2.5 5.5L8 16l2.5-5.5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4M12 17h.01"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 6.1A10 10 0 0 1 22 12a17 17 0 0 1-3.2 4M6.6 6.7A17 17 0 0 0 2 12s3.5 7 10 7a9.7 9.7 0 0 0 4-.9M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="topbar-row">
+    <div class="brand">
+      <svg class="ic ic-lg brand-mark" aria-hidden="true"><use href="#i-logo"/></svg>
+      <div><strong>BreakShop</strong><span>Control Center</span></div>
+    </div>
+    <div class="topbar-status">
+      <span class="pill" id="conn" role="status"><i class="dot up" aria-hidden="true"></i><span id="connText">Connecting</span></span>
+      <span class="pill pill-quiet" id="profile" hidden></span>
+    </div>
+    <div class="topbar-actions">
+      <a class="btn btn-accent" id="openShop" href="#" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-store"/></svg>Open the shop</a>
+      <button class="btn btn-ghost" id="helpBtn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>Help</button>
+    </div>
+  </div>
+  <div class="topbar-row topbar-row-2">
+    <p class="now" id="now" role="status" aria-live="polite">Reading the shop</p>
+    <label class="switch" title="Hide which settings are changed, so you can find problems with your own tools"><input id="blind" type="checkbox"><span class="switch-ui" aria-hidden="true"></span><svg class="ic" aria-hidden="true"><use href="#i-eye-off"/></svg><span>Blind mode</span></label>
+    <button class="btn btn-ghost" id="randomize" type="button" title="Break something without saying what"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg>Randomize</button>
+    <button class="btn btn-warn" id="reset" type="button" title="Clears every fault, puts copies back to one, and stops traffic and stress"><svg class="ic" aria-hidden="true"><use href="#i-reset"/></svg>Reset to normal</button>
+    <button class="btn btn-danger" id="panicTop" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg>Stop stress</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Sections">
+    <a href="#business"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg>Business</a>
+    <a href="#traffic"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg>Traffic</a>
+    <a href="#services"><svg class="ic" aria-hidden="true"><use href="#i-server"/></svg>Services</a>
+    <a href="#stress"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg>Stress</a>
+    <a href="#logs"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg>Logs</a>
+    <a href="#metrics"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg>Metrics</a>
+    <a href="#lookup"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg>Where to look</a>
+  </nav>
+
+  <main id="main" class="content">
+
+    <section id="guide" class="panel guide" aria-labelledby="h-guide" hidden>
+      <header class="panel-head guide-head">
+        <div><h2 id="h-guide">Start here</h2><p>BreakShop is a pretend phone company's shop. You break it on purpose, then use your own tools to work out what happened. Four steps to begin:</p></div>
+        <button class="btn btn-ghost btn-sm" id="guideHide" type="button"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg>Hide guide</button>
+      </header>
+      <ol class="steps">
+        <li data-step="traffic"><span class="step-mark" aria-hidden="true"></span><div><b>Send some customers</b><p>Nothing happens until customers arrive.</p><button class="btn btn-primary btn-sm" id="guideTraffic" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Start 10 a second</button></div></li>
+        <li data-step="shop"><span class="step-mark" aria-hidden="true"></span><div><b>Visit the shop</b><p>It is a real website. Click around as a customer.</p><a class="btn btn-sm" id="guideShop" href="#" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-store"/></svg>Open the shop</a></div></li>
+        <li data-step="lookup"><span class="step-mark" aria-hidden="true"></span><div><b>Find where the data lives</b><p>Logs, metrics and trace ids, ready for your own tools.</p><a class="btn btn-sm" id="guideLookup" href="#lookup"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg>Where to look</a></div></li>
+        <li data-step="break"><span class="step-mark" aria-hidden="true"></span><div><b>Break something</b><p>Pick a service on the map and change how it behaves. Or press Randomize and be surprised.</p><a class="btn btn-sm" id="guideBreak" href="#services"><svg class="ic" aria-hidden="true"><use href="#i-server"/></svg>Open the map</a></div></li>
+      </ol>
+    </section>
+
+    <section id="business" class="panel" aria-labelledby="h-business">
+      <header class="panel-head"><h2 id="h-business"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg>Business</h2><p>What the shop is earning right now, over the last 60 seconds. This is what a customer-facing problem costs.</p></header>
+      <div class="tiles">
+        <article class="tile"><h3>Orders</h3><p class="tile-value" id="orders">0</p><svg class="spark" id="sparkOrders" viewBox="0 0 120 32" preserveAspectRatio="none" role="img" aria-label="Orders per minute trend"><polyline points=""/></svg><small>completed per minute</small></article>
+        <article class="tile"><h3>Revenue</h3><p class="tile-value" id="revenue">0</p><svg class="spark" id="sparkRevenue" viewBox="0 0 120 32" preserveAspectRatio="none" role="img" aria-label="Revenue per minute trend"><polyline points=""/></svg><small>paid per minute</small></article>
+        <article class="tile tile-warn"><h3>Abandoned or failed</h3><p class="tile-value" id="lost">0</p><svg class="spark" id="sparkLost" viewBox="0 0 120 32" preserveAspectRatio="none" role="img" aria-label="Abandoned or failed value trend"><polyline points=""/></svg><small>value of orders customers gave up on or that failed</small></article>
+      </div>
+      <h3 class="sub">Business outcomes</h3>
+      <p class="hint">Make parts of the business itself say no while nothing is technically broken: a declined card, a rejected ID.</p>
+      <div class="fields" id="outcomes"></div>
+    </section>
+
+    <section id="traffic" class="panel" aria-labelledby="h-traffic">
+      <header class="panel-head"><h2 id="h-traffic"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg>Traffic</h2><p>Pretend customers who sign up, buy, top up and move numbers. Each one follows a journey and gives up if the shop is too slow.</p></header>
+      <div class="fields">
+        <label class="field"><span class="field-label">Customers per second</span><span class="range"><input id="rps" type="range" min="0" max="100" value="10"><output id="rpsOut" for="rps">10</output></span><span class="help">How fast new customers arrive.</span></label>
+        <label class="field"><span class="field-label">Customer patience (seconds)</span><input id="patience" type="number" min="1" max="60" value="8" inputmode="numeric"><span class="help">How long a customer waits before giving up. Slower than this and the order is abandoned.</span></label>
+        <label class="field"><span class="field-label">Existing customers</span><span class="range"><input id="existing" type="range" min="0" max="100" value="30"><output id="existingOut" for="existing">30%</output></span><span class="help">Share of sign-ups that use details already on file, so the "already registered" check runs.</span></label>
+      </div>
+      <fieldset class="seg" id="shapeSeg">
+        <legend>Shape of the load</legend>
+        <label class="seg-opt"><input type="radio" name="shape" value="steady" checked><span><svg class="shape" viewBox="0 0 40 28" aria-hidden="true"><path d="M2 14h36"/></svg>Steady</span></label>
+        <label class="seg-opt"><input type="radio" name="shape" value="spike"><span><svg class="shape" viewBox="0 0 40 28" aria-hidden="true"><path d="M2 22h12l4-16 4 16h16"/></svg>Spike</span></label>
+        <label class="seg-opt"><input type="radio" name="shape" value="ramp"><span><svg class="shape" viewBox="0 0 40 28" aria-hidden="true"><path d="M2 24 38 6"/></svg>Ramp</span></label>
+        <label class="seg-opt"><input type="radio" name="shape" value="wave"><span><svg class="shape" viewBox="0 0 40 28" aria-hidden="true"><path d="M2 14c6-14 12-14 18 0s12 14 18 0"/></svg>Wave</span></label>
+        <label class="seg-opt"><input type="radio" name="shape" value="random"><span><svg class="shape" viewBox="0 0 40 28" aria-hidden="true"><path d="M2 18l6-8 6 12 6-14 6 10 6-6 6 4"/></svg>Random</span></label>
+      </fieldset>
+      <h3 class="sub">Journey mix</h3>
+      <p class="hint">What customers do. Pick a journey name to see its steps and the services it touches.</p>
+      <div class="mixbar" id="mixbar" aria-hidden="true"></div>
+      <div class="fields" id="mix"></div>
+      <div class="journey-info" id="journeyInfo" hidden></div>
+      <div class="actions">
+        <button class="btn btn-primary" id="loadStart" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Apply traffic</button>
+        <button class="btn" id="loadStop" type="button"><svg class="ic" aria-hidden="true"><use href="#i-stop"/></svg>Stop traffic</button>
+        <ul class="chips" id="loadStats" aria-label="Traffic counters"></ul>
+      </div>
+    </section>
+
+    <section id="services" class="panel" aria-labelledby="h-services">
+      <header class="panel-head"><h2 id="h-services"><svg class="ic" aria-hidden="true"><use href="#i-server"/></svg>Services</h2><p>The shop is 22 small programs that call each other. Pick one to see what it does, then slow it, break it, starve it, or run more copies.</p></header>
+      <div class="toolbar">
+        <fieldset class="seg seg-small" id="viewSeg"><legend class="sr-only">View</legend>
+          <label class="seg-opt"><input type="radio" name="view" value="map" checked><span>Map</span></label>
+          <label class="seg-opt"><input type="radio" name="view" value="list"><span>List</span></label>
+        </fieldset>
+        <label class="search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">Find a service</span><input id="serviceFilter" type="search" placeholder="Find a service" autocomplete="off"></label>
+        <label class="switch" id="changedOnlyWrap"><input id="changedOnly" type="checkbox"><span class="switch-ui" aria-hidden="true"></span><span>Changed only</span></label>
+        <span class="muted" id="serviceCount" aria-live="polite"></span>
+      </div>
+      <div class="svc-layout">
+        <div class="svc-browser">
+          <div id="mapView" class="map-wrap"><div id="map" class="map" role="group" aria-label="Map of the shop's services. Select a service for details."></div>
+            <ul class="legend" aria-label="Legend">
+              <li><i class="swatch swatch-edge"></i>Front door</li><li><i class="swatch swatch-core"></i>Shop service</li><li><i class="swatch swatch-async"></i>Works from a queue</li><li><i class="swatch swatch-partner"></i>Outside partner</li>
+              <li><i class="dot up"></i>running</li><li><i class="dot stopped"></i>stopped</li><li><i class="dot down"></i>down</li><li class="legend-chg"><i class="ring"></i>changed</li>
+            </ul>
+          </div>
+          <div id="listView" class="svc-list" hidden></div>
+        </div>
+        <aside id="inspector" class="inspector" aria-labelledby="inspTitle">
+          <div id="inspEmpty" class="insp-empty"><svg class="ic ic-xl" aria-hidden="true"><use href="#i-server"/></svg><p id="inspTitleEmpty">Select a service to see what it does and how it can be changed.</p></div>
+          <div id="inspBody" hidden>
+            <header class="insp-head"><h3 id="inspTitle" tabindex="-1"></h3><span class="role" id="inspRole"></span></header>
+            <p id="inspDoes" class="insp-does"></p>
+            <div class="rel"><b>Calls</b><span id="inspCalls"></span></div>
+            <div class="rel"><b>Called by</b><span id="inspCalledBy"></span></div>
+            <p class="blind-note" id="inspBlind" hidden><svg class="ic" aria-hidden="true"><use href="#i-eye-off"/></svg>Blind mode is on, so current settings are hidden. Anything you set here is applied on top of them.</p>
+            <div id="inspControls" class="insp-controls"></div>
+            <div id="copies" class="copies-block">
+              <h4>Copies</h4>
+              <p class="help">Run more than one copy. If one breaks, the others carry on.</p>
+              <div class="copies-row"><span class="stepper"><button type="button" id="copyDec" aria-label="Fewer copies"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></button><span id="copyCount" aria-live="polite">1</span><button type="button" id="copyInc" aria-label="More copies"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></span><div class="inst" id="inspInst"></div></div>
+            </div>
+            <div class="insp-foot"><button class="btn btn-sm" id="inspReset" type="button">Reset this service</button><a class="link" id="inspMetrics" href="#" target="_blank" rel="noopener">Its /metrics page</a></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="stress" class="panel" aria-labelledby="h-stress">
+      <header class="panel-head"><h2 id="h-stress"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg>Stress</h2><p>Raise CPU or memory on a service or the whole machine. It is capped at half your CPU and a quarter of your memory, and it always switches itself off.</p></header>
+      <div class="fields">
+        <label class="field"><span class="field-label">Target</span><select id="stressTarget"><option value="host">Whole machine</option></select><span class="help">One service, or every program on this computer.</span></label>
+        <label class="field"><span class="field-label">CPU (% of machine, max 50)</span><input id="stressCpu" type="number" min="0" max="50" value="20" inputmode="numeric"></label>
+        <label class="field"><span class="field-label">Memory (MB)</span><input id="stressMem" type="number" min="0" max="1024" value="200" inputmode="numeric"></label>
+        <label class="field"><span class="field-label">Duration (seconds)</span><input id="stressDur" type="number" min="1" max="600" value="60" inputmode="numeric"></label>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" id="stressGo" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Start stress</button>
+        <button class="btn btn-danger" id="panic" type="button"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg>PANIC: stop all stress</button>
+        <span class="banner" id="stressState" role="status">Idle</span>
+      </div>
+    </section>
+
+    <section id="logs" class="panel" aria-labelledby="h-logs">
+      <header class="panel-head"><h2 id="h-logs"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg>Logs</h2><p>Change how every service writes its logs, so you can practise with messy ones.</p></header>
+      <fieldset class="seg" id="logFormatSeg">
+        <legend>Format</legend>
+        <label class="seg-opt"><input type="radio" name="logFormat" value="json" checked><span>JSON</span></label>
+        <label class="seg-opt"><input type="radio" name="logFormat" value="plain"><span>Plain text</span></label>
+        <label class="seg-opt"><input type="radio" name="logFormat" value="mixed"><span>Mixed</span></label>
+      </fieldset>
+      <div class="fields">
+        <label class="field"><span class="field-label">Extra lines per request</span><span class="range"><input id="logVolume" type="range" min="0" max="20" value="0"><output id="logVolumeOut" for="logVolume">0</output></span><span class="help">Filler lines written after each real one. More volume, more to search through.</span></label>
+        <label class="field"><span class="field-label">Noise</span><span class="range"><input id="logNoise" type="range" min="0" max="100" value="0"><output id="logNoiseOut" for="logNoise">0%</output></span><span class="help">Chance of an unrelated line appearing.</span></label>
+        <label class="switch"><input id="logSensitive" type="checkbox"><span class="switch-ui" aria-hidden="true"></span><span>Sensitive-looking data in logs</span></label>
+      </div>
+      <div class="actions"><button class="btn btn-primary" id="logApply" type="button">Apply to all services</button></div>
+    </section>
+
+    <section id="metrics" class="panel" aria-labelledby="h-metrics">
+      <header class="panel-head"><h2 id="h-metrics"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg>Metrics</h2><p>Change what the numbers look like.</p></header>
+      <div class="fields">
+        <label class="field"><span class="field-label">Basket value multiplier</span><span class="range"><input id="basket" type="range" min="1" max="100" value="10"><output id="basketOut" for="basket">1.0x</output></span><span class="help">Scales how much customers spend.</span></label>
+        <label class="field"><span class="field-label">Discount rate</span><span class="range"><input id="discount" type="range" min="0" max="100" value="0"><output id="discountOut" for="discount">0%</output></span><span class="help">Share taken off every basket.</span></label>
+        <label class="switch"><input id="cardinality" type="checkbox"><span class="switch-ui" aria-hidden="true"></span><span>Metric cardinality explosion</span></label>
+      </div>
+      <div class="actions"><button class="btn btn-primary" id="metricsApply" type="button">Apply to all services</button></div>
+    </section>
+
+    <section id="lookup" class="panel" aria-labelledby="h-lookup">
+      <header class="panel-head"><h2 id="h-lookup"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg>Where to look</h2><p>BreakShop only breaks things. Finding out what broke is your job, with your own tools. Here is where the data lives.</p></header>
+      <div class="look-grid">
+        <article class="look"><h3>Logs</h3><p>Every program writes its logs to a file. Point your tool at this folder.</p><div class="copyline"><code id="lookLogs">...</code><button class="btn btn-sm" type="button" data-copy="lookLogs">Copy</button></div></article>
+        <article class="look"><h3>Metrics</h3><p>Every service responds at <code>/metrics</code> in the common text format. Open the list to see each address.</p><details id="lookMetricsBox"><summary>Show all addresses</summary><ul class="urls" id="lookMetrics"></ul></details></article>
+        <article class="look"><h3>Traces</h3><p>Every journey carries one trace id, passed through every service, queue message and log line. Look for it in the logs and in the <code>traceparent</code> header.</p><div class="copyline"><code>traceparent: 00-&lt;trace id&gt;-&lt;span id&gt;-01</code></div></article>
+        <article class="look"><h3>Business events</h3><p>Every step of every journey is also written as a business event with the trace id, an amount and an outcome. Read them from here:</p><div class="copyline"><code id="lookEvents">...</code><button class="btn btn-sm" type="button" data-copy="lookEvents">Copy</button></div></article>
+        <article class="look"><h3>Databases</h3><p>Each service keeps its own small database file in this folder.</p><div class="copyline"><code id="lookData">...</code><button class="btn btn-sm" type="button" data-copy="lookData">Copy</button></div></article>
+      </div>
+    </section>
+
+    <footer class="foot">Everything here controls your own machine. Reset puts it all back.</footer>
+  </main>
+</div>
+
+<dialog id="help" aria-labelledby="helpTitle">
+  <form method="dialog" class="help-box">
+    <header><h2 id="helpTitle">Words used here</h2><button class="btn btn-ghost btn-sm" value="close" aria-label="Close help"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></header>
+    <dl>
+      <dt>Journey</dt><dd>One customer task from start to finish, such as buying a SIM. Each journey is also a business flow.</dd>
+      <dt>Customer patience</dt><dd>How long a customer waits before giving up. Slower than this and the order is abandoned.</dd>
+      <dt>Abandoned or failed</dt><dd>The value of orders customers gave up on, plus orders that failed.</dd>
+      <dt>Business outcome</dt><dd>A place where the business says no on its own, such as a declined payment, with nothing technically broken.</dd>
+      <dt>Copies</dt><dd>Identical running copies of one service. If one is stopped, requests go to the rest.</dd>
+      <dt>Break / Start</dt><dd>Stop or start one copy of a service.</dd>
+      <dt>Latency</dt><dd>A delay added to every request a service handles.</dd>
+      <dt>Errors</dt><dd>The share of requests that fail with a server error and a stack trace in the logs.</dd>
+      <dt>Timeouts</dt><dd>The share of requests that never get a reply.</dd>
+      <dt>CPU burn / Memory leak</dt><dd>A service uses more and more processor time or memory.</dd>
+      <dt>Slow database query</dt><dd>Database calls take much longer than they should.</dd>
+      <dt>Dependencies fail</dt><dd>Everything this service tries to call fails straight away.</dd>
+      <dt>Metric cardinality explosion</dt><dd>Every request creates a brand-new metric label, so the number of separate metric series grows without limit.</dd>
+      <dt>Blind mode</dt><dd>Hides which settings are changed, so the only way to find a problem is with your own tools.</dd>
+      <dt>Trace id</dt><dd>One identifier that follows a journey through every service, queue message and log line.</dd>
+    </dl>
+    <footer><button class="btn btn-sm" type="button" id="showGuide">Show the start-here guide again</button><button class="btn btn-primary btn-sm" value="close">Close</button></footer>
+  </form>
+</dialog>
+
+<div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+<script src="/static/app.js"></script>
+<script src="/static/map.js"></script>
+<script src="/static/guide.js"></script>
+</body>
+</html>

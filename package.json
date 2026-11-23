@@ -1,0 +1,16 @@
+{
+  "name": "breakshop",
+  "version": "0.1.0",
+  "description": "A telecom shop built to be broken, for practising observability.",
+  "license": "MIT",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\"",
+    "start": "node supervisor/index.js",
+    "stop": "node supervisor/stop.js"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}

@@ -1,0 +1,10 @@
+<section class="narrow">
+  <h1>Order a SIM</h1>
+  <p class="lead">Choose a plan. We reserve a number and post your SIM.</p>
+  <form class="form" data-endpoint="orders" data-type="sim" novalidate>
+    <div class="field" data-customer-field><label for="customerId">Customer ID</label><input id="customerId" name="customerId" autocomplete="off" required><p class="hint">You get this when you <a href="/account/new">create an account</a>.</p></div>
+    <fieldset class="field"><legend>Plan</legend><div class="plan-pick" data-plans="sim" aria-live="polite"><p class="muted">Loading plans</p></div></fieldset>
+    <button class="btn btn-primary btn-lg" type="submit">Pay and order</button>
+  </form>
+  <section class="result" id="result" role="status" tabindex="-1" hidden></section>
+</section>

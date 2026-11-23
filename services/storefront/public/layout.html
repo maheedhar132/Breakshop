@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5b21b6">
+<title>{{title}} | BreakTel</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 32 32"><path d="M7 17a8 8 0 0 1 8 8M7 9a16 16 0 0 1 16 16"/><circle cx="8" cy="25" r="2.4"/></symbol>
+  <symbol id="i-sim" viewBox="0 0 24 24"><path d="M7 2h7l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><rect x="9" y="11" width="7" height="7" rx="1"/><path d="M12.5 11v7M9 14.5h7"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10.5 10.5 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><path d="M12 20h.01"/></symbol>
+  <symbol id="i-topup" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 7v10M7 12h10"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+</svg>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="BreakTel home"><svg class="ic ic-brand" aria-hidden="true"><use href="#i-logo"/></svg><span>Break<b>Tel</b></span></a>
+    <nav aria-label="Main">
+      <a href="/account/new" data-nav="join">Join</a>
+      <a href="/sim" data-nav="sim">SIM</a>
+      <a href="/broadband" data-nav="broadband">Broadband</a>
+      <a href="/recharge" data-nav="recharge">Top up</a>
+      <a href="/transfer" data-nav="transfer">Switch</a>
+    </nav>
+    <div class="account" id="account"></div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+{{content}}
+</main>
+
+<footer class="site-foot"><div class="wrap"><p>BreakTel is fictional. A telecom shop built to be broken.</p></div></footer>
+<script src="/static/app.js"></script>
+</body>
+</html>

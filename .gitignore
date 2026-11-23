@@ -1,0 +1,10 @@
+node_modules/
+.data/
+.superpowers/
+*.log
+.DS_Store
+
+# Assistant and planning files stay out of the repository
+.claude/
+CLAUDE.md
+docs/
